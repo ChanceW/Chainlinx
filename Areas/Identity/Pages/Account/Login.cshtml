@@ -1,0 +1,73 @@
+@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">@ViewData["Title"]</h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <button type="submit" class="btn btn-outline-dark w-100" name="provider" value="Google" title="Log in using your Google account">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="vertical-align:middle; margin-right:8px;" viewBox="0 0 48 48">
+                                      <g>
+                                        <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.22l6.85-6.85C36.68 2.7 30.74 0 24 0 14.82 0 6.73 5.48 2.69 13.44l7.99 6.2C12.13 13.13 17.62 9.5 24 9.5z"/>
+                                        <path fill="#34A853" d="M46.1 24.5c0-1.64-.15-3.22-.42-4.74H24v9.04h12.42c-.54 2.9-2.18 5.36-4.64 7.04l7.19 5.6C43.27 37.27 46.1 31.4 46.1 24.5z"/>
+                                        <path fill="#FBBC05" d="M10.68 28.04A14.5 14.5 0 0 1 9.5 24c0-1.4.23-2.76.64-4.04l-7.99-6.2A23.94 23.94 0 0 0 0 24c0 3.82.92 7.44 2.55 10.64l8.13-6.6z"/>
+                                        <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.14 15.89-5.82l-7.19-5.6c-2.01 1.35-4.6 2.15-8.7 2.15-6.38 0-11.87-3.63-14.32-8.94l-8.13 6.6C6.73 42.52 14.82 48 24 48z"/>
+                                        <path fill="none" d="M0 0h48v48H0z"/>
+                                      </g>
+                                    </svg>
+                                    Sign in with Google
+                                </button>
+                            </div>
+                        </form>
+                        <hr class="my-4" />
+                    </div>
+                    <form id="account" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <label asp-for="Input.Email" class="form-label">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.Password" class="form-label">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="checkbox mb-3">
+                            <label asp-for="Input.RememberMe" class="form-label">
+                                <input class="form-check-input" asp-for="Input.RememberMe" />
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                        <div>
+                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                        </div>
+                        <div class="mt-3">
+                            <p class="text-center">
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                            </p>
+                            <p class="text-center">
+                                <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

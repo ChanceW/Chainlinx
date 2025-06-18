@@ -1,13 +1,13 @@
 # Chainlinx
 
-Chainlinx is a web application designed to help mountain bikers and motorcyclists organize and join group rides. Create, discover, and connect with fellow riders for unforgettable adventures.
+A Blazor Server application with authentication, Google OAuth, and PostgreSQL database integration.
 
 ## Features
 
-- **Create Rides**: Organize your own group rides with detailed information
-- **Find Rides**: Discover existing rides in your area
-- **Connect with Riders**: Join rides and connect with fellow enthusiasts
-- **Modern UI**: Clean, responsive design built with Blazor
+- **Authentication System**: Email/password and Google OAuth login
+- **User Dashboard**: Protected dashboard for authenticated users
+- **PostgreSQL Database**: Entity Framework Core with PostgreSQL
+- **Modern UI**: Bootstrap-based responsive design
 
 ## Technology Stack
 
@@ -22,26 +22,52 @@ Before running this application, make sure you have the following installed:
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - Visual Studio 2022, Visual Studio Code, or any IDE that supports .NET development
+- PostgreSQL database
+- Google OAuth credentials (optional, for Google login)
 
-## Getting Started
+## Setup Instructions
 
-### 1. Clone the Repository
+### 1. Database Setup
 
-```bash
-git clone <repository-url>
-cd Chainlinx
+1. Install PostgreSQL on your system
+2. Create a new database named `chainlinx`
+3. Update the connection string in `appsettings.json`:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Database=chainlinx;Username=your_username;Password=your_password"
+  }
+}
 ```
 
-### 2. Restore Dependencies
+### 2. Google OAuth Setup (Optional)
 
-```bash
-dotnet restore
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Enable the Google+ API
+4. Create OAuth 2.0 credentials
+5. Add your application's domain to authorized origins
+6. Update the Google OAuth settings in `appsettings.json`:
+
+```json
+{
+  "Authentication": {
+    "Google": {
+      "ClientId": "your_google_client_id",
+      "ClientSecret": "your_google_client_secret"
+    }
+  }
+}
 ```
 
-### 3. Build the Application
+### 3. Database Migration
+
+Run the following commands to create and apply the database migrations:
 
 ```bash
-dotnet build
+dotnet ef migrations add InitialCreate
+dotnet ef database update
 ```
 
 ### 4. Run the Application
@@ -50,15 +76,14 @@ dotnet build
 dotnet run
 ```
 
-The application will start and be available at `https://localhost:5001` or `http://localhost:5000`.
+The application will be available at `https://localhost:5001` or `http://localhost:5000`.
 
-### 5. Development Mode
+## Usage
 
-For development with hot reload:
-
-```bash
-dotnet watch run
-```
+1. **Registration**: Click "Sign Up" to create a new account with email/password or Google OAuth
+2. **Login**: Use your credentials or Google account to log in
+3. **Dashboard**: After successful authentication, you'll be redirected to the dashboard
+4. **Logout**: Click the logout button in the header to sign out
 
 ## Project Structure
 

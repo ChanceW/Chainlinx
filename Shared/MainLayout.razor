@@ -1,13 +1,32 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
 
-<header>
-    <span style="font-size: 2rem; font-weight: bold; letter-spacing: 2px;">
-        🔗 Chainlinx
-    </span>
-</header>
-
-<div class="main">
-    <div class="content px-4">
-        @Body
+<CascadingAuthenticationState>
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <span class="navbar-brand" style="font-size: 1.5rem; font-weight: bold; letter-spacing: 2px;">
+                🔗 Chainlinx
+            </span>
+            <div class="navbar-nav ms-auto">
+                <AuthorizeView>
+                    <Authorized>
+                        <span class="navbar-text mr-3">
+                            Welcome, @context.User.Identity?.Name!
+                        </span>
+                        <a class="nav-link mr-2" href="/dashboard">Dashboard</a>
+                        <a class="btn btn-outline-light btn-sm ml-2" href="/Identity/Account/Logout">Logout</a>
+                    </Authorized>
+                    <NotAuthorized>
+                        <a class="btn btn-outline-light mr-2" href="/Identity/Account/Login">Login</a>
+                        <a class="btn btn-primary ml-2" href="/Identity/Account/Register">Sign Up</a>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </div>
+    </header>
+    <div class="main" style="margin-top: 70px;">
+        <div class="content px-4">
+            @Body
+        </div>
     </div>
-</div>
+</CascadingAuthenticationState>

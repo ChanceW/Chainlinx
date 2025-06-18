@@ -1,0 +1,60 @@
+@page "/dashboard"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+
+<PageTitle>Dashboard - Chainlinx</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="mb-4">Welcome to Your Dashboard</h1>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Dashboard Overview</h5>
+                            <p class="card-text">This is your personal dashboard. Here you can manage your account and access various features.</p>
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Profile</h5>
+                                            <p class="card-text">Manage your account settings</p>
+                                            <a href="/Identity/Account/Manage" class="btn btn-light">Go to Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-success text-white">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Settings</h5>
+                                            <p class="card-text">Configure your preferences</p>
+                                            <button class="btn btn-light" disabled>Coming Soon</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-info text-white">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Analytics</h5>
+                                            <p class="card-text">View your statistics</p>
+                                            <button class="btn btn-light" disabled>Coming Soon</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="text-center mt-5">
+            <h2>Access Denied</h2>
+            <p>Please log in to access the dashboard.</p>
+            <a href="/Identity/Account/Login" class="btn btn-primary">Login</a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView> 
