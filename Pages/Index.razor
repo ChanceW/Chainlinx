@@ -1,0 +1,173 @@
+﻿@page "/"
+
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">Welcome to ChainLinx</h1>
+        <p class="hero-subtitle">Connect with fellow mountain bikers and schedule epic group rides</p>
+        <button class="cta-button" @onclick="ScheduleRide">
+            <span class="oi oi-calendar" aria-hidden="true"></span> Schedule a Ride
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <span class="oi oi-people" aria-hidden="true"></span>
+                </div>
+                <h3 class="feature-title">Group Coordination</h3>
+                <p class="feature-description">
+                    Easily organize group rides with friends and fellow mountain bikers. 
+                    Set meeting points, times, and track who's coming.
+                </p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <span class="oi oi-map" aria-hidden="true"></span>
+                </div>
+                <h3 class="feature-title">Trail Discovery</h3>
+                <p class="feature-description">
+                    Discover new trails and share your favorite routes with the community. 
+                    Get recommendations based on skill level and preferences.
+                </p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <span class="oi oi-graph" aria-hidden="true"></span>
+                </div>
+                <h3 class="feature-title">Ride Analytics</h3>
+                <p class="feature-description">
+                    Track your riding progress, analyze performance metrics, 
+                    and share achievements with your riding group.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="feature-card">
+                <h3 class="feature-title">Upcoming Rides</h3>
+                <div class="upcoming-rides">
+                    <div class="ride-item">
+                        <div class="ride-date">Dec 15, 2024</div>
+                        <div class="ride-info">
+                            <h4>Trail Ridge Loop</h4>
+                            <p>Intermediate level ride at Pine Valley Trails</p>
+                            <span class="ride-participants">8 riders confirmed</span>
+                        </div>
+                    </div>
+                    <div class="ride-item">
+                        <div class="ride-date">Dec 18, 2024</div>
+                        <div class="ride-info">
+                            <h4>Sunset Peak Challenge</h4>
+                            <p>Advanced technical trail at Mountain View Park</p>
+                            <span class="ride-participants">5 riders confirmed</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-3">View All Rides</button>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="feature-card">
+                <h3 class="feature-title">Quick Actions</h3>
+                <div class="quick-actions">
+                    <button class="btn btn-primary btn-lg mb-3 w-100">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Create New Ride
+                    </button>
+                    <button class="btn btn-secondary btn-lg mb-3 w-100">
+                        <span class="oi oi-search" aria-hidden="true"></span> Find Rides Near Me
+                    </button>
+                    <button class="btn btn-secondary btn-lg mb-3 w-100">
+                        <span class="oi oi-person" aria-hidden="true"></span> My Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .upcoming-rides {
+        margin-top: 1rem;
+    }
+    
+    .ride-item {
+        display: flex;
+        align-items: flex-start;
+        padding: 1rem;
+        border: 1px solid var(--light-gray);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        background-color: var(--very-light-gray);
+        transition: all 0.3s ease;
+    }
+    
+    .ride-item:hover {
+        border-color: var(--primary-red);
+        box-shadow: 0 2px 4px rgba(215, 38, 56, 0.1);
+    }
+    
+    .ride-date {
+        background-color: var(--primary-red);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        min-width: 80px;
+        text-align: center;
+        margin-right: 1rem;
+    }
+    
+    .ride-info h4 {
+        color: var(--very-dark-gray);
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .ride-info p {
+        color: var(--medium-gray);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .ride-participants {
+        color: var(--primary-red);
+        font-weight: bold;
+        font-size: 0.8rem;
+    }
+    
+    .quick-actions .btn {
+        text-align: left;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .quick-actions .btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .quick-actions .btn .oi {
+        margin-right: 0.5rem;
+    }
+</style>
+
+@code {
+    private void ScheduleRide()
+    {
+        // TODO: Implement ride scheduling functionality
+        Console.WriteLine("Schedule ride clicked!");
+    }
+}

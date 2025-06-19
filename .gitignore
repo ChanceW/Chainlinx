@@ -1,0 +1,42 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.dbmdl
+*.pdb
+*.cache
+*.log
+*.vspscc
+*.vssscc
+
+# Rider
+.idea/
+*.sln.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Others
+*.swp
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# Node
+node_modules/
+
+# Publish
+publish/
+wwwroot/dist/
+
+# Secrets
+appsettings.*.json
+!appsettings.json 
