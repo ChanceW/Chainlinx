@@ -1,0 +1,27 @@
+@page
+@using Microsoft.AspNetCore.Identity
+@using ChainLinx.Data
+@using Microsoft.Extensions.Configuration
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "External Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow">
+                <div class="card-body p-4 text-center">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h4>Redirecting to Google</h4>
+                    <p class="text-muted">Please wait while we redirect you to Google for authentication...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
