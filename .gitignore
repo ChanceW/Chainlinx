@@ -39,5 +39,4 @@ wwwroot/dist/
 
 # Secrets
 appsettings.*.json
-!appsettings.json
 appsettings.Development.json 
