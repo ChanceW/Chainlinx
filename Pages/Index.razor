@@ -1,12 +1,34 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Identity
+@using ChainLinx.Data
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <div class="hero-section">
     <div class="container">
         <h1 class="hero-title">Welcome to ChainLinx</h1>
-        <p class="hero-subtitle">Connect with fellow mountain bikers and schedule epic group rides</p>
-        <button class="cta-button" @onclick="ScheduleRide">
-            <span class="oi oi-calendar" aria-hidden="true"></span> Schedule a Ride
-        </button>
+        @if (isAuthenticated)
+        {
+            <p class="hero-subtitle">Welcome back, @userEmail! Ready for your next adventure?</p>
+        }
+        else
+        {
+            <p class="hero-subtitle">Connect with fellow mountain bikers and schedule epic group rides</p>
+            <div class="hero-buttons">
+                <a href="/login" class="btn btn-primary btn-lg me-3">
+                    <span class="oi oi-account-login" aria-hidden="true"></span> Login
+                </a>
+                <a href="/signup" class="btn btn-outline-primary btn-lg">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Sign Up
+                </a>
+            </div>
+        }
+        @if (isAuthenticated)
+        {
+            <button class="cta-button" @onclick="ScheduleRide">
+                <span class="oi oi-calendar" aria-hidden="true"></span> Schedule a Ride
+            </button>
+        }
     </div>
 </div>
 
@@ -52,52 +74,80 @@
         </div>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-md-6">
-            <div class="feature-card">
-                <h3 class="feature-title">Upcoming Rides</h3>
-                <div class="upcoming-rides">
-                    <div class="ride-item">
-                        <div class="ride-date">Dec 15, 2024</div>
-                        <div class="ride-info">
-                            <h4>Trail Ridge Loop</h4>
-                            <p>Intermediate level ride at Pine Valley Trails</p>
-                            <span class="ride-participants">8 riders confirmed</span>
+    @if (isAuthenticated)
+    {
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <h3 class="feature-title">Upcoming Rides</h3>
+                    <div class="upcoming-rides">
+                        <div class="ride-item">
+                            <div class="ride-date">Dec 15, 2024</div>
+                            <div class="ride-info">
+                                <h4>Trail Ridge Loop</h4>
+                                <p>Intermediate level ride at Pine Valley Trails</p>
+                                <span class="ride-participants">8 riders confirmed</span>
+                            </div>
+                        </div>
+                        <div class="ride-item">
+                            <div class="ride-date">Dec 18, 2024</div>
+                            <div class="ride-info">
+                                <h4>Sunset Peak Challenge</h4>
+                                <p>Advanced technical trail at Mountain View Park</p>
+                                <span class="ride-participants">5 riders confirmed</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="ride-item">
-                        <div class="ride-date">Dec 18, 2024</div>
-                        <div class="ride-info">
-                            <h4>Sunset Peak Challenge</h4>
-                            <p>Advanced technical trail at Mountain View Park</p>
-                            <span class="ride-participants">5 riders confirmed</span>
-                        </div>
+                    <button class="btn btn-primary mt-3">View All Rides</button>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <h3 class="feature-title">Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="btn btn-primary btn-lg mb-3 w-100">
+                            <span class="oi oi-plus" aria-hidden="true"></span> Create New Ride
+                        </button>
+                        <button class="btn btn-secondary btn-lg mb-3 w-100">
+                            <span class="oi oi-search" aria-hidden="true"></span> Find Rides Near Me
+                        </button>
+                        <button class="btn btn-secondary btn-lg mb-3 w-100">
+                            <span class="oi oi-person" aria-hidden="true"></span> My Profile
+                        </button>
                     </div>
                 </div>
-                <button class="btn btn-primary mt-3">View All Rides</button>
             </div>
         </div>
-        
-        <div class="col-md-6">
-            <div class="feature-card">
-                <h3 class="feature-title">Quick Actions</h3>
-                <div class="quick-actions">
-                    <button class="btn btn-primary btn-lg mb-3 w-100">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Create New Ride
-                    </button>
-                    <button class="btn btn-secondary btn-lg mb-3 w-100">
-                        <span class="oi oi-search" aria-hidden="true"></span> Find Rides Near Me
-                    </button>
-                    <button class="btn btn-secondary btn-lg mb-3 w-100">
-                        <span class="oi oi-person" aria-hidden="true"></span> My Profile
-                    </button>
+    }
+    else
+    {
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="feature-card text-center">
+                    <h3 class="feature-title">Get Started Today</h3>
+                    <p class="feature-description">
+                        Join the ChainLinx community to start organizing rides, discovering trails, and connecting with fellow mountain bikers.
+                    </p>
+                    <div class="mt-4">
+                        <a href="/signup" class="btn btn-primary btn-lg me-3">
+                            <span class="oi oi-plus" aria-hidden="true"></span> Create Account
+                        </a>
+                        <a href="/login" class="btn btn-outline-primary btn-lg">
+                            <span class="oi oi-account-login" aria-hidden="true"></span> Sign In
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
 
 <style>
+    .hero-buttons {
+        margin-top: 2rem;
+    }
+    
     .upcoming-rides {
         margin-top: 1rem;
     }
@@ -165,6 +215,21 @@
 </style>
 
 @code {
+    private bool isAuthenticated = false;
+    private string userEmail = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckAuthenticationStatus();
+    }
+
+    private async Task CheckAuthenticationStatus()
+    {
+        var user = await UserManager.GetUserAsync(SignInManager.Context.User);
+        isAuthenticated = user != null;
+        userEmail = user?.Email ?? "";
+    }
+
     private void ScheduleRide()
     {
         // TODO: Implement ride scheduling functionality

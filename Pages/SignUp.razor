@@ -1,0 +1,174 @@
+@page "/signup"
+@using Microsoft.AspNetCore.Identity
+@using ChainLinx.Data
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Sign Up - ChainLinx</PageTitle>
+
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3><span class="icon-text"><i class="oi oi-plus"></i>Create Account</span></h3>
+            </div>
+            
+            <div class="auth-body">
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <span class="icon-text"><i class="oi oi-warning"></i>@errorMessage</span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(successMessage))
+                {
+                    <div class="alert alert-success" role="alert">
+                        <span class="icon-text"><i class="oi oi-check"></i>@successMessage</span>
+                    </div>
+                }
+
+                <form @onsubmit="HandleSignUp">
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <span class="icon-text"><i class="oi oi-envelope-closed"></i>Email</span>
+                        </label>
+                        <input type="email" class="form-control" id="email" @bind="email" required placeholder="Enter your email" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <span class="icon-text"><i class="oi oi-lock-locked"></i>Password</span>
+                        </label>
+                        <input type="password" class="form-control" id="password" @bind="password" required placeholder="Enter your password" />
+                        <div class="form-text">
+                            <span class="icon-text"><i class="oi oi-info"></i>Password must be at least 6 characters long.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">
+                            <span class="icon-text"><i class="oi oi-lock-locked"></i>Confirm Password</span>
+                        </label>
+                        <input type="password" class="form-control" id="confirmPassword" @bind="confirmPassword" required placeholder="Confirm your password" />
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-auth" disabled="@isLoading">
+                        @if (isLoading)
+                        {
+                            <span class="icon-text">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                                <span>Creating account...</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="icon-text"><i class="oi oi-plus"></i>Sign Up</span>
+                        }
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>or</span>
+                </div>
+                
+                <button type="button" class="btn btn-google btn-auth" @onclick="GoogleSignUp" disabled="@isLoading">
+                    @if (isLoading)
+                    {
+                        <span class="icon-text">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                            <span>Connecting...</span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="google-icon"></span>
+                        <span>Sign up with Google</span>
+                    }
+                </button>
+                
+                <div class="auth-footer">
+                    <a href="/login">
+                        <span class="icon-text"><i class="oi oi-account-login"></i>Already have an account? Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string email = "";
+    private string password = "";
+    private string confirmPassword = "";
+    private bool isLoading = false;
+    private string errorMessage = "";
+    private string successMessage = "";
+
+    private async Task HandleSignUp()
+    {
+        isLoading = true;
+        errorMessage = "";
+        successMessage = "";
+
+        try
+        {
+            if (password != confirmPassword)
+            {
+                errorMessage = "Passwords do not match.";
+                isLoading = false;
+                return;
+            }
+
+            if (password.Length < 6)
+            {
+                errorMessage = "Password must be at least 6 characters long.";
+                isLoading = false;
+                return;
+            }
+
+            var user = new IdentityUser { UserName = email, Email = email };
+            var result = await UserManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                successMessage = "Account created successfully! You can now login.";
+                email = "";
+                password = "";
+                confirmPassword = "";
+            }
+            else
+            {
+                errorMessage = string.Join(", ", result.Errors.Select(e => e.Description));
+            }
+        }
+        catch
+        {
+            errorMessage = "An error occurred during registration. Please try again.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void GoogleSignUp()
+    {
+        isLoading = true;
+        try
+        {
+            // For now, we'll redirect to a simple Google OAuth endpoint
+            // In a real application, you would implement proper OAuth flow
+            var returnUrl = NavigationManager.BaseUri;
+            var googleAuthUrl = $"/api/auth/google?returnUrl={Uri.EscapeDataString(returnUrl)}";
+            NavigationManager.NavigateTo(googleAuthUrl, true);
+        }
+        catch
+        {
+            errorMessage = "An error occurred during Google sign up. Please try again.";
+            isLoading = false;
+        }
+    }
+} 

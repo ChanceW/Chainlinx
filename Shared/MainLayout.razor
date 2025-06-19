@@ -1,11 +1,38 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Identity
+@using ChainLinx.Data
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject NavigationManager NavigationManager
 
-<div class="main">
+@{
+    var currentPath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri).ToLower();
+    var isAuthPage = currentPath.StartsWith("login") || currentPath.StartsWith("signup");
+}
+
+<div class="@(isAuthPage ? "main auth-page" : "main")">
     <div class="top-row px-4">
-        <div class="navbar-brand">ChainLinx</div>
+        <a href="/" class="navbar-brand">ChainLinx</a>
     </div>
 
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+@code {
+    private bool isAuthenticated = false;
+    private string userEmail = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckAuthenticationStatus();
+    }
+
+    private async Task CheckAuthenticationStatus()
+    {
+        var user = await UserManager.GetUserAsync(SignInManager.Context.User);
+        isAuthenticated = user != null;
+        userEmail = user?.Email ?? "";
+    }
+}
