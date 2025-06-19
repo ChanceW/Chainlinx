@@ -1,0 +1,38 @@
+@page "/logout"
+@using Microsoft.AspNetCore.Identity
+@using ChainLinx.Data
+@inject SignInManager<IdentityUser> SignInManager
+@inject NavigationManager NavigationManager
+
+<PageTitle>Logout - ChainLinx</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow">
+                <div class="card-body p-4 text-center">
+                    <h3 class="mb-4">Logout</h3>
+                    <p>Are you sure you want to logout?</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" @onclick="HandleLogout">Yes, Logout</button>
+                        <a href="/" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // Auto-logout if accessed directly
+        await HandleLogout();
+    }
+
+    private async Task HandleLogout()
+    {
+        await SignInManager.SignOutAsync();
+        NavigationManager.NavigateTo("/", true);
+    }
+} 

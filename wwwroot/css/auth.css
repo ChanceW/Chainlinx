@@ -1,0 +1,379 @@
+/* Authentication Pages Styling - ChainLinx Theme */
+
+/* Override default content styles for auth pages */
+.auth-page .content {
+    margin: 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    width: 100%;
+    animation: slideInUp 0.6s ease-out;
+}
+
+/* Animation for container entrance */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-card {
+    background: linear-gradient(135deg, var(--very-dark-gray) 0%, var(--dark-gray) 100%);
+    border-radius: 15px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    z-index: 1;
+    padding: 2px;
+}
+
+/* Add a subtle mountain biking themed background pattern */
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(215, 38, 56, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(215, 38, 56, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(215, 38, 56, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.auth-header {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%);
+    color: white;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+    position: relative;
+}
+
+.auth-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon fill="rgba(255,255,255,0.1)" points="0,100 100,100 100,0"/></svg>');
+    background-size: 100% 100%;
+    pointer-events: none;
+}
+
+.auth-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.auth-body {
+    padding: 1rem 1.25rem 0.75rem;
+    background: white;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+}
+
+.form-group {
+    margin-bottom: 0.625rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--very-dark-gray);
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-control:focus {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 0.2rem rgba(215, 38, 56, 0.25);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Override Bootstrap button styles for auth pages */
+.auth-page .auth-body .btn-primary {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%) !important;
+    color: white !important;
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 4px 8px rgba(215, 38, 56, 0.3) !important;
+}
+
+.auth-page .auth-body .btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 15px rgba(215, 38, 56, 0.4) !important;
+    background: linear-gradient(135deg, var(--accent-red) 0%, var(--primary-red) 100%) !important;
+    border-color: var(--accent-red) !important;
+}
+
+.auth-page .auth-body .btn-primary:focus {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%) !important;
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 0 0 0.2rem rgba(215, 38, 56, 0.25) !important;
+}
+
+.auth-body .btn-outline-secondary {
+    background: white !important;
+    color: var(--medium-gray) !important;
+    border: 2px solid var(--medium-gray) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.auth-body .btn-outline-secondary:hover {
+    background: var(--medium-gray) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    border-color: var(--medium-gray) !important;
+}
+
+.auth-body .btn-outline-secondary:focus {
+    background: white !important;
+    color: var(--medium-gray) !important;
+    border-color: var(--medium-gray) !important;
+    box-shadow: 0 0 0 0.2rem rgba(102, 102, 102, 0.25) !important;
+}
+
+.divider {
+    text-align: center;
+    margin: 0.75rem 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--light-gray);
+}
+
+.divider span {
+    color: var(--medium-gray);
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.divider .oi {
+    font-size: 0.75rem;
+    color: var(--light-gray);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--light-gray);
+}
+
+.auth-footer a {
+    color: var(--primary-red);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.auth-footer a:hover {
+    color: var(--accent-red);
+    text-decoration: underline;
+}
+
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: none;
+    font-weight: 500;
+}
+
+.alert-danger {
+    background: #fef2f2;
+    color: #dc2626;
+    border-left: 4px solid var(--primary-red);
+    box-shadow: 0 2px 4px rgba(215, 38, 56, 0.1);
+}
+
+.alert-success {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-left: 4px solid #16a34a;
+    box-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+    accent-color: var(--primary-red);
+}
+
+.form-check-label {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: var(--medium-gray);
+    font-weight: 500;
+}
+
+.form-text {
+    font-size: 0.75rem;
+    color: var(--medium-gray);
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+/* Loading states */
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-color: currentColor;
+    border-right-color: transparent;
+}
+
+/* Mountain biking themed icons */
+.btn .oi {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Icon text alignment */
+.icon-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon-text .oi {
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Remove old icon styles */
+.auth-body .oi, .auth-header .oi {
+    margin-right: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .auth-container {
+        padding: 1rem 0.25rem;
+        margin: 0.5rem;
+    }
+    .auth-card {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+    .auth-header, .auth-body {
+        padding: 1rem 0.5rem;
+    }
+    .auth-header h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Hover effects for interactive elements */
+.form-control:hover {
+    border-color: var(--primary-red);
+}
+
+.btn-auth:not(:disabled):hover {
+    transform: translateY(-2px);
+}
+
+/* Focus states for accessibility */
+.form-control:focus,
+.btn-auth:focus {
+    outline: 2px solid var(--primary-red);
+    outline-offset: 2px;
+}
+
+/* Google Auth Button */
+.btn-google {
+    background: white !important;
+    color: #3c4043 !important;
+    border: 1px solid #dadce0 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem !important;
+}
+
+.btn-google:hover {
+    background: #f8f9fa !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12) !important;
+}
+
+.google-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%234285F4' d='M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z'/%3E%3Cpath fill='%2334A853' d='M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z'/%3E%3Cpath fill='%23FBBC05' d='M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7c1.73-5.2 6.58-9.07 12.31-9.07z'/%3E%3Cpath fill='%23EA4335' d='M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+} 

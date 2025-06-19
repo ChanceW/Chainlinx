@@ -1,0 +1,170 @@
+@page "/login"
+@using Microsoft.AspNetCore.Identity
+@using ChainLinx.Data
+@using Microsoft.AspNetCore.WebUtilities
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Login - ChainLinx</PageTitle>
+
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3><span class="icon-text"><i class="oi oi-account-login"></i>Welcome Back</span></h3>
+            </div>
+            
+            <div class="auth-body">
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <span class="icon-text"><i class="oi oi-warning"></i>@errorMessage</span>
+                    </div>
+                }
+
+                <form @onsubmit="HandleLogin">
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <span class="icon-text"><i class="oi oi-envelope-closed"></i>Email</span>
+                        </label>
+                        <input type="email" class="form-control" id="email" @bind="email" required placeholder="Enter your email" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <span class="icon-text"><i class="oi oi-lock-locked"></i>Password</span>
+                        </label>
+                        <input type="password" class="form-control" id="password" @bind="password" required placeholder="Enter your password" />
+                    </div>
+                    
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rememberMe" @bind="rememberMe" />
+                        <label class="form-check-label" for="rememberMe">
+                            <span class="icon-text"><i class="oi oi-check"></i>Remember me</span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-auth" disabled="@isLoading">
+                        @if (isLoading)
+                        {
+                            <span class="icon-text">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                                <span>Logging in...</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="icon-text"><i class="oi oi-account-login"></i>Login</span>
+                        }
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>or</span>
+                </div>
+                
+                <button type="button" class="btn btn-google btn-auth" @onclick="GoogleLogin" disabled="@isLoading">
+                    @if (isLoading)
+                    {
+                        <span class="icon-text">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                            <span>Connecting...</span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="google-icon"></span>
+                        <span>Continue with Google</span>
+                    }
+                </button>
+                
+                <div class="auth-footer">
+                    <a href="/signup">
+                        <span class="icon-text"><i class="oi oi-plus"></i>Don't have an account? Sign up</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string email = "";
+    private string password = "";
+    private bool rememberMe = false;
+    private bool isLoading = false;
+    private string errorMessage = "";
+
+    protected override void OnInitialized()
+    {
+        // Check for error parameters in URL
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("error", out var error))
+        {
+            errorMessage = error.First() switch
+            {
+                "external_login_failed" => "Google login failed. Please try again.",
+                "account_locked" => "Account is locked. Please try again later.",
+                "account_creation_failed" => "Failed to create account. Please try again.",
+                "authentication_error" => "Authentication error occurred. Please try again.",
+                _ => "An error occurred. Please try again."
+            };
+        }
+    }
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = "";
+
+        try
+        {
+            var result = await SignInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: false);
+            
+            if (result.Succeeded)
+            {
+                NavigationManager.NavigateTo("/", true);
+            }
+            else if (result.RequiresTwoFactor)
+            {
+                NavigationManager.NavigateTo("/login-with-2fa", true);
+            }
+            else if (result.IsLockedOut)
+            {
+                errorMessage = "Account is locked out. Please try again later.";
+            }
+            else
+            {
+                errorMessage = "Invalid login attempt. Please check your email and password.";
+            }
+        }
+        catch
+        {
+            errorMessage = "An error occurred during login. Please try again.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void GoogleLogin()
+    {
+        isLoading = true;
+        try
+        {
+            // For now, we'll redirect to a simple Google OAuth endpoint
+            // In a real application, you would implement proper OAuth flow
+            var returnUrl = NavigationManager.BaseUri;
+            var googleAuthUrl = $"/api/auth/google?returnUrl={Uri.EscapeDataString(returnUrl)}";
+            NavigationManager.NavigateTo(googleAuthUrl, true);
+        }
+        catch
+        {
+            errorMessage = "An error occurred during Google login. Please try again.";
+            isLoading = false;
+        }
+    }
+} 
